@@ -15,15 +15,14 @@ export class Giphy extends App {
 
     constructor(info: IAppInfo, logger: ILogger) {
         super(info, logger);
-
-        this.gifGetter = new GifGetter();
     }
 
     public getGifGetter(): GifGetter {
         return this.gifGetter;
     }
 
-    protected async extendConfiguration(configuration: IConfigurationExtend, environmentRead: IEnvironmentRead): Promise<void> {
+    public async initialize(configuration: IConfigurationExtend, environmentRead: IEnvironmentRead): Promise<void> {
+        this.gifGetter = new GifGetter();
         await configuration.settings.provideSetting({
             id: 'giphy_apikey',
             type: SettingType.STRING,
@@ -61,5 +60,7 @@ export class Giphy extends App {
             i18nDescription: 'Customize_GIPHY_Show_Title_Description',
         });
         await configuration.slashCommands.provideSlashCommand(new GiphyCommand(this));
+        
     }
+
 }
