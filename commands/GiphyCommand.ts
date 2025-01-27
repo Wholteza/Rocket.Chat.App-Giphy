@@ -39,7 +39,7 @@ export class GiphyCommand implements ISlashCommand {
         const attribution: ISlashCommandPreviewItem = {
             id: this.poweredByGiphyLabel,
             type: SlashCommandPreviewItemType.IMAGE,
-            value: "/images/Poweredby_640px_Badge.gif"
+            value: "https://raw.githubusercontent.com/wholteza/Rocket.Chat.App-Giphy/master/images/Poweredby_640px_Badge.gif"
         }
 
         return {
