@@ -2,9 +2,9 @@
     "id": "8b882242-0cb7-419f-87d8-93b1d09e1ec2",
     "name": "GIPHY",
     "nameSlug": "giphy",
-    "version": "0.0.6",
-    "requiredApiVersion": "1.43.5",
-    "description": "Search for GIFs directly inside Rocket.Chat (Powered by GIPHY.com)",
+    "version": "0.0.7",
+    "requiredApiVersion": ">=1.43.5",
+    "description": "Search for GIFs directly inside Rocket.Chat (Powered by GIPHY)",
     "author": {
         "name": "RocketBooster",
         "homepage": "https://rocketbooster.net",

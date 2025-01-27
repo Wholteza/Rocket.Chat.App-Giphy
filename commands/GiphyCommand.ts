@@ -1,5 +1,5 @@
 import { IHttp, IModify, IPersistence, IRead } from '@rocket.chat/apps-engine/definition/accessors';
-import { ISlashCommand, ISlashCommandPreview, ISlashCommandPreviewItem, SlashCommandContext } from '@rocket.chat/apps-engine/definition/slashcommands';
+import { ISlashCommand, ISlashCommandPreview, ISlashCommandPreviewItem, SlashCommandContext, SlashCommandPreviewItemType } from '@rocket.chat/apps-engine/definition/slashcommands';
 import { Giphy } from '../Giphy';
 import { GiphyResult } from '../helpers/GiphyResult';
 
@@ -8,6 +8,7 @@ export class GiphyCommand implements ISlashCommand {
     public i18nParamsExample = 'GIPHY_Search_Term';
     public i18nDescription = 'GIPHY_Command_Description';
     public providesPreview = true;
+    public poweredByGiphyLabel = "Powered By GIPHY"
 
     constructor(private readonly app: Giphy) { }
 
@@ -35,9 +36,15 @@ export class GiphyCommand implements ISlashCommand {
             };
         }
 
+        const attribution: ISlashCommandPreviewItem = {
+            id: this.poweredByGiphyLabel,
+            type: SlashCommandPreviewItemType.IMAGE,
+            value: "/images/Poweredby_640px_Badge.gif"
+        }
+
         return {
-            i18nTitle: 'Results for',
-            items,
+            i18nTitle: 'GIPHY_Search_Term',
+            items: [...items.slice(0,7), attribution],
         };
     }
 
@@ -55,10 +62,9 @@ export class GiphyCommand implements ISlashCommand {
             const gif = await this.app.getGifGetter().getOne(this.app.getLogger(), http, item.id, read);
             const showTitle = await read.getEnvironmentReader().getSettings().getValueById('giphy_show_title');
             const trigger = context.getArguments().join(' ').trim();
-
             builder.addAttachment({
                 title: {
-                    value: ((showTitle) ? gif.title.trim() : ''),
+                    value: ((showTitle) ? `${this.poweredByGiphyLabel}: ${gif.title.trim()}` : this.poweredByGiphyLabel),
                 },
                 author: {
                     icon: 'https://raw.githubusercontent.com/wreiske/Rocket.Chat.App-Giphy/master/images/Giphy-256.png',
